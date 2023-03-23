@@ -1,39 +1,4 @@
-/* 
-🌟 APP: Fighting Game
 
-Create an updateGame() function that will update the DOM with the state of the game 👇
-========================================
-
-- updateGame()
-
-These are the 2 classes you must create and their methods 👇
-========================================
-
-class Player {
-  - strike()
-  - heal()
-}
-
-class Game {
-  - play()
-  - checkIsOver()
-  - declareWinner()
-  - reset()
-}
-
-These functions are hard coded in the HTML. So, you can't change their names.
-
-These are all the DIV ID's you're gonna need access to 👇
-========================================================
-#1 ID 👉 'play' = Button to run simulation
-#2 ID 👉 'result' = Div that holds the winner of the match
-#3 ID 👉 'p1Name' = Div that holds player 1's Name
-#4 ID 👉 'p2Name' = Div that holds player 2's Name
-#5 ID 👉 'p1Health' = Div that holds player 1's health
-#6 ID 👉 'p2Health' = Div that holds player 2's health
-*/
-
-// ** Grabs elements from the DOM and stores them into variables **
 let playButton = document.getElementById('play')
 let resultDiv = document.getElementById('result')
 let p1NameDiv = document.getElementById('p1Name')
@@ -60,11 +25,6 @@ const updateGame = (p1,p2,gameState) => {
 
 }
 
-// ** Create the Player class which can create a player with all it's attributes and methods **
-// qazi = new Player('Qazi', 100, 7)
-// qazi.name 👉 'Qazi'
-// qazi.health 👉 100
-// qazi.attackDmg 👉 7
 class Player {
   constructor(name, health, attackDamage) {
     this.name = name;
@@ -99,18 +59,14 @@ class Player {
   }
 }
 
-// ** Create the Game class with all it's attributes and methods to run a match **
-// game = new Game()
-// game.isOver 👉 false
 class Game {
   constructor() {
     this.isOver = false;
   }
 
-  // ** If the game is over and a player has 0 health declare the winner! **
+
   declareWinner(isOver,p1, p2) {
-    
-    // Create a message variable that will hold a message based on the condition
+  
     let message = "TIE!"
     if(isOver==true && p1.health<=0){
       message = `${p2.name} WINS!`
@@ -122,14 +78,12 @@ class Game {
     // Play victory sound
     document.getElementById('victory').play()
 
-    // Return message variable 
     return message
 
   }
 
-  // ** Reset the players health back to it's original state and isOver to FALSE **
   reset(p1,p2) {
-    // set p1 health and p2 health back to 100 and isOver back to false and clear resultDiv.innerText and don't forget to updateGame()
+   
     p1.health = 100
     p2.health = 100
     this.isOver = false
@@ -142,42 +96,35 @@ class Game {
   play(p1, p2) {
     this.reset(p1,p2);
 
-    // Make sure the players take turns untill isOver is TRUE
+    // the players take turns untill isOver is TRUE
     while (!this.isOver) {
-      //Make sure both players get strike() and heal() once each loop
+      //both players get strike() and heal() once each loop
       
       p1.strike (p1, p2, p1.attackDmg)
       p1.heal(p1)
       p2.strike (p2, p1, p2.attackDmg)
       p2.heal(p2)
     }
-    // Once isOver is TRUE run the declareWinner() method 
+    
     return this.declareWinner(this.isOver,p1, p2)
   }
 
 }
 
-// ** Create 2 players using the player class **
 let player1 = new Player('player1', 100, 10)
 let player2 = new Player('player2', 100, 10)
-// ** Save original Player Data into a variable in order to reset **
+
 let p1 = player1;
 let p2 = player2;
 
-// ** Create the game object from the Game class **
 let game = new Game;
 
-// ** Intialize the game by calling updateGame() **
 updateGame(p1,p2)
 
-// ** Save intial isOver from the game object inside this variable **
 let gameState = game.isOver;
 
-
-// ** Add a click listener to the simulate button that runs the play() method on click and pass in the players **
 play.onclick = () => result.innerText = game.play(p1,p2)
 
-// Add functionality where players can press a button to attack OR heal
 // console.log(p1.strike(p1, p2, p1.attackDmg))
 // ** Player 1 Controls **
 document.addEventListener('keydown', function(e) {
